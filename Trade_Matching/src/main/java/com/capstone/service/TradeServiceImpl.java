@@ -2,6 +2,7 @@ package com.capstone.service;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,8 @@ import com.capstone.models.PartyValidationModel;
 import com.capstone.models.TradeDataModel;
 import com.capstone.repo.TradeRepo;
 import com.capstone.repo.ValidationRepo;
+
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
 
 @Service
 public class TradeServiceImpl implements TradeService {
@@ -25,8 +28,7 @@ public class TradeServiceImpl implements TradeService {
 		return tradeRepository.findAll();
 	}
 
-	@Override
-	public TradeDataModel saveTrade(TradeDataModel td) {
+	public TradeDataModel insertTrade(TradeDataModel td) {
 		// TODO Auto-generated method stub
 
 		int checkDate = 0;
@@ -38,6 +40,7 @@ public class TradeServiceImpl implements TradeService {
 		TradeDataModel td1 = tradeRepository.findByTradeRefNum(td.getTradeRefNum());
 		td.setVersion(1);
 		td.setStatus("Unconfirmed");
+		// Insert new TimesStampp in Td at insertion
 
 		// party validation
 		PartyValidationModel pvm = ValidationRepository.findByPartyAndPartyInstitutionAndPartyFullName(td.getParty(),
@@ -78,6 +81,38 @@ public class TradeServiceImpl implements TradeService {
 
 		return null;
 
+	}
+
+	@Override
+	public List<TradeDataModel> getTradeByPartyStatus(String party, String status) {
+		List<TradeDataModel> allTrade=tradeRepository.findByPartyAndStatus(party, status);
+		if(!allTrade.isEmpty()) {
+			return allTrade;
+		}
+		return null;
+	}
+
+	@Override
+	public TradeDataModel getTradeByTradeRefNum(String tradeRefNum) {
+		TradeDataModel showTrade=tradeRepository.findByTradeRefNum(tradeRefNum);
+		if(showTrade!=null) {
+			return showTrade;
+		}
+		return null;
+	}
+
+	@Override
+	public TradeDataModel updateTradeByTradeRefNum(String tradeRefNum, TradeDataModel newTradeData) {
+		//Check if both have same TradeRefNum,and new td should be unconfirmed
+		TradeDataModel existingTradeData= tradeRepository.findByTradeRefNum(tradeRefNum);
+		if(existingTradeData!=null) {
+			existingTradeData.setVersion(existingTradeData.getVersion()+1);
+			// Insert new VersionTimesStampp  at insertion
+			BeanUtils.copyProperties(newTradeData, existingTradeData);
+			return tradeRepository.save(newTradeData);
+		}
+		return null;
+		
 	}
 
 }

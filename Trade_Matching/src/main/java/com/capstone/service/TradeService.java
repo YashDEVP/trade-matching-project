@@ -6,10 +6,18 @@ import org.springframework.stereotype.Service;
 
 import com.capstone.models.TradeDataModel;
 
-@Service
+//@Service
 public interface TradeService {
 
 	List<TradeDataModel> getAllTrade();
 
-	TradeDataModel saveTrade(TradeDataModel td);
+	TradeDataModel insertTrade(TradeDataModel td);
+	
+	List<TradeDataModel> getTradeByPartyStatus(String party,String status);
+	
+	TradeDataModel getTradeByTradeRefNum(String tradeRefNum);
+	
+	TradeDataModel updateTradeByTradeRefNum(String tradeRefNum,TradeDataModel newTradeData);
+	
+	
 }
