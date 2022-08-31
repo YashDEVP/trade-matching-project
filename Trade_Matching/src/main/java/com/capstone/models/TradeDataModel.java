@@ -74,7 +74,7 @@ public class TradeDataModel {
 	@Size(max = 40) @NotBlank
 	private String InstrumentId;
 	
-	@Column	 @NotNull @NotBlank
+	@Column	 @NotNull 
 	@Positive
 	private double notionalAmount;
 	
@@ -92,7 +92,6 @@ public class TradeDataModel {
 	@Column(nullable = false, length = 20)
 	@Size(max =20) @NotBlank
 	private String buyer;
-	
 	
 	
 	@Temporal(value=TemporalType.TIMESTAMP)

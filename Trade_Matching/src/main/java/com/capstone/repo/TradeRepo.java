@@ -10,5 +10,8 @@ import com.capstone.models.TradeDataModel;
 public interface TradeRepo extends JpaRepository<TradeDataModel, Long>{
 
 	TradeDataModel findByTradeRefNum(String tradeRefNum);
+	
 	List<TradeDataModel> findByPartyAndStatus(String party,String status);
+	
+	List<TradeDataModel> findByPartyAndCounterPartyAndStatus(String party,String counterParty,String status);
 }

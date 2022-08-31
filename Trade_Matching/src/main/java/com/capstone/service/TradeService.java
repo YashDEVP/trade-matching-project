@@ -2,6 +2,7 @@ package com.capstone.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.capstone.models.TradeDataModel;
@@ -9,15 +10,17 @@ import com.capstone.models.TradeDataModel;
 //@Service
 public interface TradeService {
 
-	List<TradeDataModel> getAllTrade();
+	ResponseEntity<List<TradeDataModel>> getAllTrade();
 
-	TradeDataModel insertTrade(TradeDataModel td);
+	ResponseEntity<TradeDataModel> insertTrade(TradeDataModel td);
 	
-	List<TradeDataModel> getTradeByPartyStatus(String party,String status);
+	ResponseEntity<List<TradeDataModel>> getTradeByPartyStatus(String party,String status);
 	
-	TradeDataModel getTradeByTradeRefNum(String tradeRefNum);
+	ResponseEntity<TradeDataModel> getTradeByTradeRefNum(String tradeRefNum);
 	
-	TradeDataModel updateTradeByTradeRefNum(String tradeRefNum,TradeDataModel newTradeData);
+	ResponseEntity<TradeDataModel> updateTradeByTradeRefNum(String tradeRefNum,TradeDataModel newTradeData);
+	
+	ResponseEntity<TradeDataModel> cancelTrade(String tradeRefNum);
 	
 	
 }

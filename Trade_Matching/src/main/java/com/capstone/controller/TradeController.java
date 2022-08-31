@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,13 +32,7 @@ public class TradeController {
 
 	@Autowired
 	private TradeService tradeService;
-	
-	//trims the length of empty string
-//	@InitBinder
-//	public void initBinder(WebDataBinder dataBinder) {
-//	StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-//	dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-//	}
+
 
 	@ApiOperation(value="View a list of available Trades.")
     @ApiResponses(value = {
@@ -48,51 +43,41 @@ public class TradeController {
 	
 	
 	@GetMapping("/trade/")
-	public List<TradeDataModel> getAllTrade(){
+	public ResponseEntity<List<TradeDataModel>> getAllTrade(){
 		return tradeService.getAllTrade();
 	}
 	
 	@ApiOperation(value="Inserting trade in DB after Validating.")
 	@PostMapping("/trade/")
 	public ResponseEntity<TradeDataModel> insertTrade(@RequestBody TradeDataModel td){
-		TradeDataModel showTrade= tradeService.insertTrade(td);
-		if(showTrade==null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
-		return ResponseEntity.of(Optional.of(showTrade));
+		return tradeService.insertTrade(td);
 	}
 	
 	
 	@ApiOperation(value="Search a trade by the help of party and status.")
 	@GetMapping("/trade/{party}/{status}")
 	public ResponseEntity<List<TradeDataModel>> getTradeByPartyStatus(String party,String status ){
-		List<TradeDataModel> allTrade= tradeService.getTradeByPartyStatus(party, status);
-		if(allTrade==null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		return ResponseEntity.of(Optional.of(allTrade));
+		return tradeService.getTradeByPartyStatus(party, status);
 	}
+	
 	
 	@ApiOperation(value="View a particular Trade by TradeRefNumber.")
 	@GetMapping("/trade/{tradeRefNum}")
 	public ResponseEntity<TradeDataModel> getTradeByTradeRefNum(String tradeRefNum ){
-		TradeDataModel allTrade= tradeService.getTradeByTradeRefNum(tradeRefNum);
-		if(allTrade==null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		return ResponseEntity.of(Optional.of(allTrade));
+		return tradeService.getTradeByTradeRefNum(tradeRefNum);
 	}
 	
 	@ApiOperation(value="Update a particular Trade by TradeRefNumber.")
 	@PutMapping("/trade/{tradeRefNum}")
 	public ResponseEntity<TradeDataModel> updateTradeByTradeRefNum(@PathVariable String tradeRefNum, @RequestBody TradeDataModel newTradeData){
-		TradeDataModel allTrade= tradeService.updateTradeByTradeRefNum( tradeRefNum, newTradeData);
-		if(allTrade==null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		return ResponseEntity.of(Optional.of(allTrade));
+		return tradeService.updateTradeByTradeRefNum( tradeRefNum, newTradeData);
+		
 	}
 	
-	
+	@ApiOperation(value="Update a particular Trade by updating status")
+	@PatchMapping("/trade/cancelTrade")
+	public ResponseEntity<TradeDataModel> cancelTrade(String tradeRefNum ){
+		return tradeService.cancelTrade(tradeRefNum);
+	}
 	
 }
