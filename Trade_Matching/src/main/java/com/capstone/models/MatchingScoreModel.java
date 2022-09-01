@@ -1,32 +1,23 @@
 package com.capstone.models;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Entity
 public class MatchingScoreModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long sNo;
+	private Long sNo;
 	
-	@Column(nullable=false ,length = 20,unique = true)
-	@Size(max = 20) @NotBlank
 	private String partyTradeRefNum;
-	
-	@Column(nullable=false ,length = 20,unique = true)
-	@Size(max = 20) @NotBlank
+
 	private String counterPartyTradeRefNum;
 	
-	@Column(nullable=false)
-	private int matchScore;
+	private int matchingPercent;
 	
-	@Column(nullable=false)
 	private String status;
 
 	public MatchingScoreModel() {
@@ -34,21 +25,21 @@ public class MatchingScoreModel {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MatchingScoreModel(long sNo, @Size(max = 20) @NotBlank String partyTradeRefNum,
-			@Size(max = 20) @NotBlank String counterPartyTradeRefNum, int matchScore, String status) {
+	public MatchingScoreModel(Long sNo, String partyTradeRefNum, String counterPartyTradeRefNum, int matchingPercent,
+			String status) {
 		super();
 		this.sNo = sNo;
 		this.partyTradeRefNum = partyTradeRefNum;
 		this.counterPartyTradeRefNum = counterPartyTradeRefNum;
-		this.matchScore = matchScore;
+		this.matchingPercent = matchingPercent;
 		this.status = status;
 	}
 
-	public long getsNo() {
+	public Long getsNo() {
 		return sNo;
 	}
 
-	public void setsNo(long sNo) {
+	public void setsNo(Long sNo) {
 		this.sNo = sNo;
 	}
 
@@ -68,12 +59,12 @@ public class MatchingScoreModel {
 		this.counterPartyTradeRefNum = counterPartyTradeRefNum;
 	}
 
-	public int getMatchScore() {
-		return matchScore;
+	public int getMatchingPercent() {
+		return matchingPercent;
 	}
 
-	public void setMatchScore(int matchScore) {
-		this.matchScore = matchScore;
+	public void setMatchingPercent(int matchingPercent) {
+		this.matchingPercent = matchingPercent;
 	}
 
 	public String getStatus() {

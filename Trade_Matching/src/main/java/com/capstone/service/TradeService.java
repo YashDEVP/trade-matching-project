@@ -10,17 +10,17 @@ import com.capstone.models.TradeDataModel;
 //@Service
 public interface TradeService {
 
-	ResponseEntity<List<TradeDataModel>> getAllTrade();
+	ResponseEntity<?> getAllTrade();
 
-	ResponseEntity<TradeDataModel> insertTrade(TradeDataModel td);
+	ResponseEntity<?> insertTrade(TradeDataModel td);
 	
-	ResponseEntity<List<TradeDataModel>> getTradeByPartyStatus(String party,String status);
+	ResponseEntity<?> getTradeByPartyStatus(String party,String status);
 	
-	ResponseEntity<TradeDataModel> getTradeByTradeRefNum(String tradeRefNum);
+	ResponseEntity<?> getTradeByTradeRefNum(String tradeRefNum);
 	
-	ResponseEntity<TradeDataModel> updateTradeByTradeRefNum(String tradeRefNum,TradeDataModel newTradeData);
+	ResponseEntity<?> updateTradeByTradeRefNum(String tradeRefNum,TradeDataModel newTradeData);
 	
-	ResponseEntity<TradeDataModel> cancelTrade(String tradeRefNum);
+	ResponseEntity<?> cancelTrade(String tradeRefNum);
 	
 	
 }

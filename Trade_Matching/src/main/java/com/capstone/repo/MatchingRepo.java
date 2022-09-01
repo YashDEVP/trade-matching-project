@@ -1,16 +1,9 @@
 package com.capstone.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import com.capstone.models.MatchingScoreModel;
-import com.capstone.models.PartyValidationModel;
 
-@Repository
-public interface MatchingRepo  extends JpaRepository<PartyValidationModel, Long> {
+public interface MatchingRepo extends JpaRepository<MatchingScoreModel, Long>{
 
-	void save(MatchingScoreModel calWeight);
-
-	
-	
 }

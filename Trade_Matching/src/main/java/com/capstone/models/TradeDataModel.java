@@ -1,6 +1,7 @@
 package com.capstone.models;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
-
+import org.springframework.format.annotation.DateTimeFormat;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -64,11 +65,12 @@ public class TradeDataModel {
 	@Size(max = 20) @NotBlank
 	private String counterPartyFullname;
 	
-	@Temporal(value=TemporalType.DATE)
-	private java.util.Date tradeDate;
+//	@Temporal(value=TemporalType.DATE)
+//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate tradeDate;
 	
-	@Temporal(value=TemporalType.DATE)
-	private java.util.Date effectiveDate;
+	//@Temporal(value=TemporalType.DATE)
+	private LocalDate effectiveDate;
 	
 	@Column(nullable = false,length = 40)  @NotBlank
 	@Size(max = 40) @NotBlank
@@ -78,8 +80,8 @@ public class TradeDataModel {
 	@Positive
 	private double notionalAmount;
 	
-	@Temporal(value=TemporalType.DATE)
-	private java.util.Date maturityDate;
+	//@Temporal(value=TemporalType.DATE)
+	private LocalDate maturityDate;
 	
 	@Column(nullable = false, length = 3)	@NotBlank
 	@Size(max = 3)
@@ -102,6 +104,10 @@ public class TradeDataModel {
 	@Column(nullable = false)
 	private java.util.Date confirmationTimestamp;
 	
+	@Temporal(value=TemporalType.TIMESTAMP)
+	@Column(nullable = false)
+	private java.util.Date creationTimestamp;
+	
 
 	@Column(columnDefinition = "INT DEFAULT '1'",insertable = false,nullable = false)
 	@ApiModelProperty(example = "1")
@@ -110,20 +116,21 @@ public class TradeDataModel {
 	@Column(nullable = false,insertable = false,columnDefinition = "VARCHAR(40) DEFAULT 'Unconfirmed'")
 	@ApiModelProperty(example = "Unconfirmed")
 	private String status;
-	
+
 	public TradeDataModel() {
 		super();
 		
 	}
-	
-	
-	
-	public TradeDataModel(Long id, String party, String tradeId, String tradeRefNum, String partyInstitution,
-			String counterParty, String counterPartyInstitution, String partyFullname, String counterPartyFullname,
-			java.util.Date tradeDate, java.util.Date effectiveDate, String instrumentId,
-			@NotNull @Positive double notionalAmount, java.util.Date maturityDate, String currency,@Size(min = 2, max = 20) String seller,
-			@Size(min = 2, max = 20) String buyer, java.util.Date versionTimestamp, java.util.Date confirmationTimestamp, int version,
-			String status) {
+
+	public TradeDataModel(Long id, @Size(max = 20) @NotBlank String party, @Size(max = 20) @NotBlank String tradeId,
+			@Size(max = 20) @NotBlank String tradeRefNum, @Size(max = 20) @NotBlank String partyInstitution,
+			@Size(max = 20) @NotBlank String counterParty, @Size(max = 20) @NotBlank String counterPartyInstitution,
+			@Size(max = 200) @NotBlank String partyFullname, @Size(max = 20) @NotBlank String counterPartyFullname,
+			LocalDate tradeDate, LocalDate effectiveDate, @NotBlank @Size(max = 40) @NotBlank String instrumentId,
+			@NotNull @Positive double notionalAmount, LocalDate maturityDate, @NotBlank @Size(max = 3) String currency,
+			@Size(max = 20) @NotBlank String seller, @Size(max = 20) @NotBlank String buyer,
+			java.util.Date versionTimestamp, java.util.Date confirmationTimestamp, java.util.Date creationTimestamp,
+			int version, String status) {
 		super();
 		this.id = id;
 		this.party = party;
@@ -144,10 +151,10 @@ public class TradeDataModel {
 		this.buyer = buyer;
 		this.versionTimestamp = versionTimestamp;
 		this.confirmationTimestamp = confirmationTimestamp;
+		this.creationTimestamp = creationTimestamp;
 		this.version = version;
 		this.status = status;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -161,7 +168,6 @@ public class TradeDataModel {
 		return party;
 	}
 
-	
 	public void setParty(String party) {
 		this.party = party;
 	}
@@ -179,8 +185,8 @@ public class TradeDataModel {
 	}
 
 	public void setTradeRefNum(String party,String tradeId) {
-		this.tradeRefNum = party+tradeId;
-	}
+        this.tradeRefNum = party+tradeId;
+    }
 
 	public String getPartyInstitution() {
 		return partyInstitution;
@@ -222,19 +228,19 @@ public class TradeDataModel {
 		this.counterPartyFullname = counterPartyFullname;
 	}
 
-	public java.util.Date getTradeDate() {
+	public LocalDate getTradeDate() {
 		return tradeDate;
 	}
 
-	public void setTradeDate(java.util.Date tradeDate) {
+	public void setTradeDate(LocalDate tradeDate) {
 		this.tradeDate = tradeDate;
 	}
 
-	public java.util.Date getEffectiveDate() {
+	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
 
-	public void setEffectiveDate(java.util.Date effectiveDate) {
+	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 
@@ -254,11 +260,11 @@ public class TradeDataModel {
 		this.notionalAmount = notionalAmount;
 	}
 
-	public java.util.Date getMaturityDate() {
+	public LocalDate getMaturityDate() {
 		return maturityDate;
 	}
 
-	public void setMaturityDate(java.util.Date maturityDate) {
+	public void setMaturityDate(LocalDate maturityDate) {
 		this.maturityDate = maturityDate;
 	}
 
@@ -302,6 +308,14 @@ public class TradeDataModel {
 		this.confirmationTimestamp = confirmationTimestamp;
 	}
 
+	public java.util.Date getCreationTimestamp() {
+		return creationTimestamp;
+	}
+
+	public void setCreationTimestamp(java.util.Date creationTimestamp) {
+		this.creationTimestamp = creationTimestamp;
+	}
+
 	public int getVersion() {
 		return version;
 	}
@@ -317,7 +331,8 @@ public class TradeDataModel {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
+	
+	
 
 	
 }

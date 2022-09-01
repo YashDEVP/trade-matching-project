@@ -43,40 +43,41 @@ public class TradeController {
 	
 	
 	@GetMapping("/trade/")
-	public ResponseEntity<List<TradeDataModel>> getAllTrade(){
+	public ResponseEntity<?> getAllTrade(){
+		
 		return tradeService.getAllTrade();
 	}
 	
 	@ApiOperation(value="Inserting trade in DB after Validating.")
 	@PostMapping("/trade/")
-	public ResponseEntity<TradeDataModel> insertTrade(@RequestBody TradeDataModel td){
+	public ResponseEntity<?> insertTrade(@RequestBody TradeDataModel td){
 		return tradeService.insertTrade(td);
 	}
 	
 	
 	@ApiOperation(value="Search a trade by the help of party and status.")
 	@GetMapping("/trade/{party}/{status}")
-	public ResponseEntity<List<TradeDataModel>> getTradeByPartyStatus(String party,String status ){
+	public ResponseEntity<?> getTradeByPartyStatus(String party,String status ){
 		return tradeService.getTradeByPartyStatus(party, status);
 	}
 	
 	
 	@ApiOperation(value="View a particular Trade by TradeRefNumber.")
 	@GetMapping("/trade/{tradeRefNum}")
-	public ResponseEntity<TradeDataModel> getTradeByTradeRefNum(String tradeRefNum ){
+	public ResponseEntity<?> getTradeByTradeRefNum(String tradeRefNum ){
 		return tradeService.getTradeByTradeRefNum(tradeRefNum);
 	}
 	
 	@ApiOperation(value="Update a particular Trade by TradeRefNumber.")
 	@PutMapping("/trade/{tradeRefNum}")
-	public ResponseEntity<TradeDataModel> updateTradeByTradeRefNum(@PathVariable String tradeRefNum, @RequestBody TradeDataModel newTradeData){
+	public ResponseEntity<?> updateTradeByTradeRefNum(@PathVariable String tradeRefNum, @RequestBody TradeDataModel newTradeData){
 		return tradeService.updateTradeByTradeRefNum( tradeRefNum, newTradeData);
 		
 	}
 	
 	@ApiOperation(value="Update a particular Trade by updating status")
 	@PatchMapping("/trade/cancelTrade")
-	public ResponseEntity<TradeDataModel> cancelTrade(String tradeRefNum ){
+	public ResponseEntity<?> cancelTrade(String tradeRefNum ){
 		return tradeService.cancelTrade(tradeRefNum);
 	}
 	
